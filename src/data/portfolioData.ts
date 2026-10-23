@@ -9,7 +9,7 @@ export const portfolioData: PortfolioData = {
     heroHeadline: "Building Intelligence, Beautifully.",
     heroSupporting: "I'm an AI Engineer working at the intersection of artificial intelligence and software engineering, building intelligent applications that turn ideas into practical solutions.",
     heroCta: "Explore My Work →",
-    portraitUrl: "/images/portrait_khushi.jpg",
+    portraitUrl: "/images/khushi_profile.png",
     portraitLabel: "AI ENGINEER &bull; EDITORIAL FOLIO &bull; 2026",
     bioHeading: "A Little About Me",
     bioIntroduction: "I am an AI Engineer passionate about designing practical, reliable, and beautifully engineered intelligent applications. With a foundation in Machine Learning and Software Engineering, I build systems that bridge theoretical algorithms and real-world utility.",
@@ -71,7 +71,8 @@ export const portfolioData: PortfolioData = {
         { label: "Security", value: "Hardened SSRF Defense" }
       ],
       githubUrl: "https://github.com/khushi741/deep-research-ai",
-      image: "/images/deep_research_tome.jpg",
+      liveDemoUrl: "",
+      image: "/images/deep_research_pink.jpg",
       layoutVariant: "large-feature"
     },
     {
@@ -97,7 +98,8 @@ export const portfolioData: PortfolioData = {
         { label: "Execution", value: "Headless Playwright Runner" }
       ],
       githubUrl: "https://github.com/khushi741/automation_testing_agent",
-      image: "/images/test_healing_tome.jpg",
+      liveDemoUrl: "",
+      image: "/images/self_healing_pink.jpg",
       layoutVariant: "split-editorial"
     },
     {
@@ -122,7 +124,8 @@ export const portfolioData: PortfolioData = {
         { label: "Deployment", value: "Docker Microservice" }
       ],
       githubUrl: "https://github.com/khushi741/Packet_analyzer",
-      image: "/images/packet_analyzer_tome.jpg",
+      liveDemoUrl: "",
+      image: "/images/packet_analyzer_pink.jpg",
       layoutVariant: "split-editorial"
     },
     {
@@ -147,7 +150,8 @@ export const portfolioData: PortfolioData = {
         { label: "Domain", value: "Biomedical Decision Support" }
       ],
       githubUrl: "https://github.com/khushi741/Seizure-Prediction",
-      image: "/images/seizure_prediction_tome.jpg",
+      liveDemoUrl: "",
+      image: "/images/eeg_seizure_pink.jpg",
       layoutVariant: "compact-card"
     }
   ],

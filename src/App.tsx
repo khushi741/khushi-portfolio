@@ -40,6 +40,30 @@ export const App: React.FC = () => {
     };
   }, []);
 
+  // Global smooth scroll reveal for sections and cards
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    const elements = document.querySelectorAll(
+      '.timeline-item-editorial, .skills-card-editorial, .about-editorial-grid, .contact-split-layout'
+    );
+    elements.forEach((el) => {
+      el.classList.add('reveal-on-scroll');
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const handleExploreProjects = () => {
     const el = document.getElementById('projects');
     if (el) {
@@ -53,13 +77,13 @@ export const App: React.FC = () => {
       <Navbar activeSection={activeSection} />
 
       <main id="main-content">
-        {/* Asymmetrical Split-Screen Hero */}
+        {/* Asymmetrical Split-Screen Hero with Editorial Portrait */}
         <Hero onExploreProjects={handleExploreProjects} />
 
         {/* A Little About Me */}
         <About />
 
-        {/* Selected Works (Art-Directed Editorial Gallery) */}
+        {/* Selected Works (Art-Directed Editorial Gallery with Live Deployment Links) */}
         <Projects />
 
         {/* Experience — My Journey Timeline */}

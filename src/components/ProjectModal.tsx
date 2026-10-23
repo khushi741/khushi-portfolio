@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { X, ExternalLink, CheckCircle2, Cpu, ShieldCheck } from 'lucide-react';
+import { X, ExternalLink, CheckCircle2, Globe } from 'lucide-react';
+import { GithubIcon } from './Icons';
 import { Project } from '../types';
 
 interface ProjectModalProps {
@@ -8,66 +9,106 @@ interface ProjectModalProps {
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
+  // Close on Escape key & Lock background scroll
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
   }, [onClose]);
 
   return (
-    <div className="project-modal-backdrop" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="project-modal-dialog" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
-        <div className="modal-header-editorial">
-          <div>
+    <div
+      className="modal-backdrop-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div
+        className="modal-content-card"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          type="button"
+          className="modal-close-button"
+          onClick={onClose}
+          aria-label="Close project modal"
+        >
+          <X size={20} />
+        </button>
+
+        {/* Modal Header Media Banner */}
+        <div style={{ position: 'relative', width: '100%', height: '320px', overflow: 'hidden' }}>
+          <img
+            src={project.image}
+            alt={project.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, rgba(81, 59, 56, 0.88) 0%, rgba(81, 59, 56, 0.25) 60%, transparent 100%)'
+          }} />
+
+          <div style={{
+            position: 'absolute',
+            bottom: '2rem',
+            left: '2.5rem',
+            right: '2.5rem',
+            color: '#FFFFFF'
+          }}>
             <span style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: '1.1rem',
-              color: 'var(--color-dusty-rose)',
-              fontStyle: 'italic',
-              display: 'block'
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.74rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '2px',
+              backgroundColor: 'var(--color-burgundy)',
+              padding: '0.3rem 0.8rem',
+              borderRadius: '9999px',
+              display: 'inline-block',
+              marginBottom: '0.8rem'
             }}>
-              Project {project.indexNumber} &bull; {project.categoryLabel}
+              {project.categoryLabel}
             </span>
-            <h2 style={{
+            <h2 id="modal-title" style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: '2rem',
-              color: 'var(--color-burgundy-dark)',
-              fontWeight: 500
+              fontSize: '2.4rem',
+              fontWeight: 500,
+              color: '#FFFFFF',
+              lineHeight: 1.2
             }}>
               {project.title}
             </h2>
             <p style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: '0.9rem',
-              color: 'var(--color-burgundy)',
-              fontWeight: 600,
-              marginTop: '0.2rem'
+              fontSize: '1rem',
+              color: 'var(--color-dusty-rose-soft)',
+              marginTop: '0.3rem'
             }}>
               {project.tagline}
             </p>
           </div>
-          <button
-            type="button"
-            className="modal-close-button"
-            onClick={onClose}
-            aria-label="Close project modal"
-          >
-            <X size={24} />
-          </button>
         </div>
 
-        {/* Body Content */}
-        <div className="modal-body-scrollable">
-          {/* Key Metrics Banner */}
+        {/* Modal Body Content */}
+        <div style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '2.2rem' }}>
+          {/* Key Metrics Strip */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${project.metrics.length}, 1fr)`,
-            gap: '1rem',
-            padding: '1.2rem',
-            backgroundColor: 'var(--color-white)',
+            gap: '1.2rem',
+            padding: '1.4rem 1.8rem',
+            backgroundColor: 'var(--color-warm-ivory-light)',
             borderRadius: '6px',
             border: '1px solid var(--border-delicate)'
           }}>
@@ -141,7 +182,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
           {/* Technologies Used */}
           <div>
-            <h3 className="modal-section-title">Technologies & Infrastructure</h3>
+            <h3 className="modal-section-title">Technologies &amp; Infrastructure</h3>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
               {project.technologies.map((tech, idx) => (
                 <span key={idx} className="tech-tag-editorial" style={{ fontSize: '0.82rem', padding: '0.4rem 0.9rem' }}>
@@ -151,13 +192,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             </div>
           </div>
 
-          {/* Action Links */}
+          {/* Action Links — with Live Demo button or dedicated reserved slot */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            gap: '1rem',
             paddingTop: '1.5rem',
-            borderTop: '1px solid var(--border-delicate)'
+            borderTop: '1px solid var(--border-delicate)',
+            flexWrap: 'wrap'
           }}>
             <a
               href={project.githubUrl}
@@ -165,14 +207,38 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
               rel="noreferrer"
               className="btn-view-project"
             >
+              <GithubIcon size={15} />
               <span>Explore GitHub Repository</span>
               <ExternalLink size={15} />
             </a>
+
+            {project.liveDemoUrl ? (
+              <a
+                href={project.liveDemoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-live-demo active"
+              >
+                <span className="live-pulse-dot" />
+                <Globe size={15} />
+                <span>View Live Demo</span>
+                <ExternalLink size={13} />
+              </a>
+            ) : (
+              <span
+                className="btn-live-demo-slot"
+                title="Space reserved for live deployment link"
+              >
+                <Globe size={15} className="slot-globe-icon" />
+                <span>Live Demo (Deployment Link Space)</span>
+              </span>
+            )}
 
             <button
               type="button"
               className="btn-github-link"
               onClick={onClose}
+              style={{ marginLeft: 'auto' }}
             >
               Close Folio
             </button>

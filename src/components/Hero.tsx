@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sparkles, FileText, Camera } from 'lucide-react';
+import { Sparkles, FileText, Camera, Compass } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 
 interface HeroProps {
@@ -12,11 +12,26 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects }) => {
 
   return (
     <section id="hero" className="hero-split-section">
+      {/* Subtle floating ambient sparkles in background */}
+      <div className="hero-ambient-sparkles" aria-hidden="true">
+        <span className="ambient-sparkle sp-1">✦</span>
+        <span className="ambient-sparkle sp-2">✦</span>
+        <span className="ambient-sparkle sp-3">✧</span>
+        <span className="ambient-sparkle sp-4">✦</span>
+        <span className="ambient-sparkle sp-5">✧</span>
+      </div>
+
       {/* ====================================================================
           LEFT SIDE: Warm Ivory Panel (~48% width) with Editorial Portrait
           ==================================================================== */}
       <div className="hero-panel-left">
         <div className="portrait-editorial-composition">
+          {/* Status Badge floating at top of portrait */}
+          <div className="portrait-floating-badge">
+            <span className="status-pulse-dot" />
+            <span>Open to AI Roles &amp; Collaborations</span>
+          </div>
+
           {/* Large Vertically Oriented Portrait Frame */}
           <div className="portrait-frame">
             {!imageError ? (
@@ -27,7 +42,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects }) => {
                 onError={() => setImageError(true)}
               />
             ) : (
-              /* High-End Editorial Portrait Placeholder (No fake portrait or altered identity) */
+              /* Fallback if image fails */
               <div className="portrait-placeholder-wrapper">
                 <div className="placeholder-silhouette-art">
                   <span className="placeholder-initials">KN</span>
@@ -38,10 +53,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects }) => {
                 </p>
                 <div className="placeholder-upload-hint">
                   <Camera size={13} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} />
-                  Editable Portrait Frame
+                  Khushi Nayak
                 </div>
               </div>
             )}
+
+            {/* Subtle Gradient Vignette Overlay */}
+            <div className="portrait-vignette-overlay" aria-hidden="true" />
           </div>
 
           {/* Decorative Corner Filigree Ornament */}
@@ -50,6 +68,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects }) => {
           {/* Decorative Vertical Label Near Edge */}
           <div className="portrait-vertical-label" aria-hidden="true">
             <span>AI ENGINEER &bull; EDITORIAL FOLIO &bull; 2026</span>
+          </div>
+
+          {/* Bottom editorial caption pill */}
+          <div className="portrait-bottom-caption">
+            <Sparkles size={13} className="sparkle-gold" />
+            <span>Machine Learning &bull; Agentic Workflows &bull; C++ Systems</span>
           </div>
         </div>
       </div>
@@ -61,7 +85,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects }) => {
         <div className="hero-content-wrap">
           {/* Subtitle / Discipline Tag */}
           <div className="hero-subtitle-tag">
-            <span>{personal.title} &bull; Machine Learning & Systems</span>
+            <span>{personal.title} &bull; Machine Learning &amp; Systems</span>
           </div>
 
           {/* Large High-Contrast Serif Headline */}
@@ -95,6 +119,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects }) => {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
             >
+              <Compass size={15} />
               <span>A Little About Me</span>
             </a>
 
@@ -103,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects }) => {
               target="_blank"
               rel="noreferrer"
               className="hero-secondary-link"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}
             >
               <FileText size={15} />
               <span>Resume PDF</span>
